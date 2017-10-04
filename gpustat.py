@@ -151,7 +151,7 @@ class GPUStat(object):
         # color settings
         colors = {}
         def _conditional(cond_fn, true_value, false_value,
-                         error_value=term.bold_black):
+                         error_value=term.bold(term.color(10))): # gray
             try:
                 if cond_fn(): return true_value
                 else: return false_value
@@ -162,15 +162,15 @@ class GPUStat(object):
         colors['C1'] = term.cyan
         colors['CName'] = term.blue
         colors['CTemp'] = _conditional(lambda: int(self.entry['temperature.gpu']) < 50,
-                                       term.red, term.bold_red)
-        colors['CMemU'] = term.bold_yellow
+                                       term.yellow, term.red)
+        colors['CMemU'] = term.bold_white#orange#bold(term.color(9))
         colors['CMemT'] = term.yellow
         colors['CMemP'] = term.yellow
-        colors['CUser'] = term.bold_black   # gray
+        colors['CUser'] = term.normal
         colors['CUtil'] = _conditional(lambda: int(self.entry['utilization.gpu']) < 30,
-                                       term.green, term.bold_green)
+                                       term.normal, term.green)
         colors['CPowU'] = _conditional(lambda: float(self.entry['power.draw']) / self.entry['enforced.power.limit'] < 0.4,
-                                       term.magenta, term.bold_magenta)
+                                       term.magenta, term.color(13)) #violet
         colors['CPowL'] = term.magenta
 
         if not with_colors:
